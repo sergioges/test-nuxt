@@ -12,3 +12,10 @@
     @apply bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow hover:scale-105 transition;
   }
 }
+
+.page-enter-active, .page-leave-active {
+  transition: opacity 0.3s;
+}
+.page-enter-from, .page-leave-to {
+  opacity: 0;
+}

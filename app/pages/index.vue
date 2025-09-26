@@ -1,87 +1,64 @@
 <script setup>
-import movies from "@/assets/pelis.json";
+import { useFetch } from 'nuxt/app'
+const moviesList = ref([]);
+const selectedPopularity = ref('asc');
+const selectedLanguage = ref("");
 
-//const categories = [...new Set(movies.map((m) => m.category))];
+const { data } = await useFetch('/api/movies');
 
-const categories = [];
-movies.forEach((movie) => {
-  if (!categories.includes(movie.category)) {
-    categories.push(movie.category);
-  }
+moviesList.value = data.value?.results || [];
+
+const locales = computed(() => {
+  const languages = [];
+  moviesList.value.forEach((movie) => {
+    if(!languages.includes(movie.original_language)) {
+      languages.push(movie.original_language)
+    }
+  })
+  return languages;
 });
 
-const selectedCategory = ref("");
-const selectedDuration = ref("");
-
-const filteredCategory = computed(() => {
-  return movies.filter((movie) =>
-    selectedCategory.value ? movie.category === selectedCategory.value : []
+const filteredLanguage = computed(() => {
+  return moviesList.value.filter((movie) =>
+    selectedLanguage.value ? movie.original_language === selectedLanguage.value : []
   );
 });
 
-const filteredDuration = computed(() => {
-  const matchDuration = [];
-  movies.filter((movie) => {
-    if (selectedDuration.value === "<30" && movie.duration < 30)
-      matchDuration.push(movie);
-    if (
-      selectedDuration.value === "30-60" &&
-      movie.duration >= 30 &&
-      movie.duration <= 60
-    )
-      matchDuration.push(movie);
-    if (selectedDuration.value === ">60" && movie.duration > 60)
-      matchDuration.push(movie);
+const sortedMovies = computed(() => {
+  if (!selectedPopularity.value) return filteredLanguage.value;
+  return [...filteredLanguage.value].sort((a, b) => {
+    if (selectedPopularity.value === "asc") {
+      return b.popularity - a.popularity;
+    } else {
+      return a.popularity - b.popularity;
+    }
   });
-  return matchDuration;
 });
 
-const filteredMovies = computed(() => {
-  if (!selectedDuration.value && !selectedCategory.value) {
-    return movies;
-  }
-
-  // If no duration is selected, use category filter
-  if (!selectedDuration.value) {
-    return filteredCategory.value;
-  }
-
-  // If no category is selected, use duration filter
-  if (!selectedCategory.value) {
-    return filteredDuration.value;
-  }
-
-  // If both filters are active, return movies that match both conditions
-  return filteredCategory.value.filter((movie) =>
-    filteredDuration.value.includes(movie)
-  );
-});
 </script>
 
 <template>
   <div class="p-6">
-    <Navbar />
     <h1 class="text-3xl font-bold text-gray-600 mb-4">Catálogo de películas</h1>
     <div class="flex flex-wrap gap-4 mb-6">
-      <select v-model="selectedCategory" class="p-2 border rounded">
-        <option value="">Todas las categorías</option>
+      <select v-model="selectedLanguage" class="p-2 border rounded">
+        <option value="">Todos los idiomas</option>
         <option
-          v-for="category in categories"
-          :key="category"
-          :value="category"
+          v-for="language in locales"
+          :key="language"
+          :value="language"
         >
-          {{ category }}
+          {{ language }}
         </option>
       </select>
-      <select v-model="selectedDuration" class="p-2 border rounded">
-        <option value="">Todas las duraciones</option>
-        <option value="<30">Menos de 30 min.</option>
-        <option value="30-60">De 30 a 60 min.</option>
-        <option value=">60">Más de 60 min.</option>
+      <select v-model="selectedPopularity" class="p-2 border rounded">
+        <option value="">Todas las popularidades</option>
+        <option value="asc">Más populares</option>
+        <option value="desc">Menos populares</option>
       </select>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg: grid-cols-3 gap-6">
-      <MovieCard v-for="movie in filteredMovies" :key="movie" :movie="movie" />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <MovieCard v-for="movie in sortedMovies" :key="movie" :movie="movie" />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
   movie: {
     type: Object,
     default: () => ({}),
@@ -12,7 +12,7 @@ defineProps({
     <div class="card">
       <picture>
         <img
-          :src="movie.image"
+          :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
           :alt="movie.title"
           class="rounded-lg mb-3 w-full h-48 object-cover"
           loading="lazy"
@@ -20,7 +20,7 @@ defineProps({
       </picture>
       <h2 class="font-bold text-lg">{{ movie.title }}</h2>
       <p class="text-sm text-gray-600">
-        {{ movie.category }} - {{ movie.duration }}
+         Fecha: {{ movie.release_date }} - Idioma: {{ movie.original_language.toUpperCase() }}
       </p>
     </div>
   </NuxtLink>
