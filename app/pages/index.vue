@@ -61,7 +61,7 @@ const filteredMovies = computed(() => {
 <template>
   <div class="p-6">
     <Navbar />
-    <h1 class="text-3xl font-bold mb-4">Catálogo de películas</h1>
+    <h1 class="text-3xl font-bold text-gray-600 mb-4">Catálogo de películas</h1>
     <div class="flex flex-wrap gap-4 mb-6">
       <select v-model="selectedCategory" class="p-2 border rounded">
         <option value="">Todas las categorías</option>
