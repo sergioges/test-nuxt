@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Amor en Berlín",
+    "category": "Romántico",
+    "duration": 45,
+    "image": "https://images.pexels.com/photos/1385472/pexels-photo-1385472.jpeg",
+    "synopsis": "Una historia íntima en la ciudad de la libertad.",
+    "actors": ["Ana López", "Markus Weber"]
+  },
+  {
+    "id": 2,
+    "title": "Olas y Deseo",
+    "category": "Experimental",
+    "duration": 20,
+    "image": "https://images.pexels.com/photos/2100063/pexels-photo-2100063.jpeg",
+    "synopsis": "Exploración sensorial junto al mar.",
+    "actors": ["Clara Ruiz", "Jonas Lindholm"]
+  },
+  {
+    "id": 3,
+    "title": "Noche en Tokio",
+    "category": "Drama",
+    "duration": 95,
+    "image": "https://images.pexels.com/photos/3348748/pexels-photo-3348748.jpeg",
+    "synopsis": "Encuentros fugaces en la metrópolis nocturna.",
+    "actors": ["Hikaru Tanaka", "Elena Moreno"]
+  },
+  {
+    "id": 4,
+    "title": "Sueños de Arena",
+    "category": "Documental",
+    "duration": 60,
+    "image": "https://images.pexels.com/photos/4725133/pexels-photo-4725133.jpeg",
+    "synopsis": "Relatos de artistas del desierto y sus efímeras creaciones.",
+    "actors": ["Ahmed Hassan", "Sofía Martínez"]
+  }
+]
